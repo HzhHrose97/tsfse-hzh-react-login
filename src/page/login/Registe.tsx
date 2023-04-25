@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { FC, useState } from "react";
 import { useJumpPage, useMessage } from "hooks";
-import { Button, Card, Input, Radio, Space, DatePicker } from "antd";
+import { Button, Card, Input, Radio, Space, DatePicker, Statistic } from "antd";
 import type { RadioChangeEvent, DatePickerProps } from "antd";
 import {
   UserOutlined,
@@ -15,13 +15,19 @@ import {
   CheckCircleTwoTone,
 } from "@ant-design/icons";
 import { sendMailCode } from "api/hzh-user/login";
-import { CountDown } from "page/common/CountDown";
+import dayjs from "dayjs";
 
-const Registe: React.FC = () => {
+const getDeadlineFromNow = () => {
+  return dayjs().add(60, "second");
+};
+
+const Registe: FC = () => {
   const messageApi = useMessage();
   const { jump } = useJumpPage();
 
   const [email, setEmail] = useState("");
+  const [showCountDown, setShowCountDown] = useState(false);
+  const [deadline, setDeadline] = useState(getDeadlineFromNow());
 
   const handToLogin = () => {
     jump("LOGIN");
@@ -35,6 +41,9 @@ const Registe: React.FC = () => {
   const sendToMailCode = () => {
     // TODO 注册接口
     // jump("LOGIN");
+    setShowCountDown(true);
+    setDeadline(getDeadlineFromNow());
+
     sendMailCode({
       email: email,
     }).then((res) => {
@@ -123,7 +132,24 @@ const Registe: React.FC = () => {
             </Space>
             <Button
               type="primary"
-              icon={<CheckCircleTwoTone />}
+              disabled={showCountDown}
+              icon={
+                showCountDown ? (
+                  <Statistic.Countdown
+                    style={{ display: "inline-block", width: "20%" }}
+                    valueStyle={{ fontSize: "6px" }}
+                    format="s"
+                    // @ts-ignore:next-line
+                    value={deadline}
+                    onFinish={() => {
+                      console.log("onFinish");
+                      setShowCountDown(false);
+                    }}
+                  />
+                ) : (
+                  <CheckCircleTwoTone />
+                )
+              }
               onClick={sendToMailCode}
             >
               发送验证码
@@ -153,7 +179,6 @@ const Registe: React.FC = () => {
             >
               确定
             </Button>
-            <CountDown />
           </Space>
         </Space>
       </Card>
