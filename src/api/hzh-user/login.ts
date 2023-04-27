@@ -14,13 +14,66 @@ type sendMailCodeObj = {
   email: string;
 };
 
+type RegisteObj = {
+  userName: string;
+  password: string;
+  phonenumber: string;
+  email: string;
+  sex: string;
+  mailCode: string;
+  userDescription: string;
+};
+
+type Result<T> = {
+  success: boolean;
+  code: number;
+  msg: string;
+  data: T;
+};
+
+type ForgetObj = {
+  password: string;
+  phonenumber: string;
+  email: string;
+  mailCode: string;
+};
+
 const login = (parmas: loginObj) => {
   return axiosInstance.post("/hzh-user/hzhUser/login", parmas);
 };
 
+// 用户注册时验证码
 const sendMailCode = (parmas: sendMailCodeObj) => {
   return axiosInstance.get("/hzh-user/hzhUser/user/sendEmailCode", parmas);
 };
 
-export { login, sendMailCode };
-export type { loginObj };
+// 用户修改密码时验证码
+const sendUpadatePasswordMailCode = (parmas: sendMailCodeObj) => {
+  return axiosInstance.get(
+    "/hzh-user/hzhUser/user/sendEmailCodeWhenUpdatePassword",
+    parmas,
+  );
+};
+
+const registerUser = (parmas: RegisteObj) => {
+  return axiosInstance.post<RegisteObj>(
+    "/hzh-user/hzhUser/user/register",
+    parmas,
+  );
+};
+
+const updatePasswordByuserSelf = (parmas: ForgetObj) => {
+  return axiosInstance.post<ForgetObj>(
+    "/hzh-user/hzhUser/user/updatePasswordByuserSelf",
+    parmas,
+  );
+};
+
+export {
+  login,
+  sendMailCode,
+  registerUser,
+  updatePasswordByuserSelf,
+  sendUpadatePasswordMailCode,
+};
+export type { loginObj, Result };

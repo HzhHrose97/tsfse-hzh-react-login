@@ -1,119 +1,111 @@
 import { Button, Card, Layout, Space } from "antd";
-import React, { useState } from "react";
+import { CSSProperties, FC, Key, ReactNode, useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import SportsBasketballIcon from "@material-ui/icons/SportsBasketball";
 import {
   AppstoreOutlined,
-  PayCircleOutlined,
-  VideoCameraAddOutlined,
-  UserDeleteOutlined,
-  FlagOutlined,
+  PieChartOutlined,
   LogoutOutlined,
+  VideoCameraOutlined,
+  UsergroupDeleteOutlined,
+  FlagOutlined,
+  TransactionOutlined,
+  DribbbleOutlined,
+  CopyrightOutlined,
 } from "@ant-design/icons";
-import type { MenuProps, MenuTheme } from "antd";
-import { Menu, Switch } from "antd";
+import type { MenuProps } from "antd";
+import { Menu } from "antd";
 import { useJumpPage, useMessage } from "hooks";
+import { getAllChinaCity } from "api";
+import { APP_PATHS } from "@common/config";
 
-const Home: React.FC = () => {
+const { Header, Footer, Content, Sider } = Layout;
+
+const headerStyle: CSSProperties = {
+  textAlign: "center",
+  color: "#fff",
+  height: 64,
+  paddingInline: 50,
+  lineHeight: "64px",
+  backgroundColor: "#7dbcea",
+};
+
+const contentStyle: CSSProperties = {
+  textAlign: "center",
+  minHeight: 120,
+  // lineHeight: "120px",
+  // color: "#fff",
+  // backgroundColor: "#108ee9",
+};
+
+const siderStyle: CSSProperties = {
+  textAlign: "center",
+  lineHeight: "120px",
+  color: "#fff",
+  backgroundColor: "#3ba0e9",
+};
+
+const footerStyle: CSSProperties = {
+  textAlign: "center",
+  color: "#fff",
+  backgroundColor: "#7dbcea",
+};
+
+type MenuItem = Required<MenuProps>["items"][number];
+
+function getItem(
+  label: ReactNode,
+  key: Key,
+  icon?: ReactNode,
+  children?: MenuItem[],
+  type?: "group",
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  } as MenuItem;
+}
+
+const items: MenuItem[] = [
+  getItem("共享中心", "hzhCenter", <PieChartOutlined />, [
+    getItem("中国城市", "chinaCity", <CopyrightOutlined />),
+    getItem("全球城市", "globalCountries", <DribbbleOutlined />),
+  ]),
+
+  getItem("赛事中心", "sub2", <VideoCameraOutlined />, [
+    getItem("篮球", "sub3", null, [getItem("NBA", "5"), getItem("CBA", "6")]),
+    getItem("足球", "sub4", null, [
+      getItem("国足", "3"),
+      getItem("意大利联赛", "4"),
+    ]),
+  ]),
+  getItem("球队中心", "sub3", <FlagOutlined />, [
+    getItem("篮球", "sub4", null, [getItem("NBA", "7"), getItem("CBA", "8")]),
+    getItem("足球", "sub5", null, [
+      getItem("国足", "9"),
+      getItem("意大利联赛", "10"),
+    ]),
+  ]),
+  getItem("订单中心", "sub6", <TransactionOutlined />, [
+    getItem("篮球", "sub7", null, [getItem("NBA", "11"), getItem("CBA", "13")]),
+    getItem("足球", "sub8", null, [
+      getItem("国足", "11"),
+      getItem("意大利联赛", "12"),
+    ]),
+  ]),
+  getItem("用户中心", "sub9", <UsergroupDeleteOutlined />),
+];
+
+const Home: FC = () => {
+  const navigate = useNavigate();
   const messageApi = useMessage();
 
-  const { Header, Footer, Sider, Content } = Layout;
+  const [collapsed] = useState(false);
+
   const { jump } = useJumpPage();
-
-  const headerStyle: React.CSSProperties = {
-    textAlign: "center",
-    color: "#fff",
-    height: 64,
-    paddingInline: 50,
-    lineHeight: "64px",
-    backgroundColor: "#7dbcea",
-  };
-
-  const contentStyle: React.CSSProperties = {
-    textAlign: "center",
-    minHeight: 120,
-    lineHeight: "120px",
-    color: "rgb(252, 252, 252)",
-    backgroundColor: "#108ee9",
-  };
-
-  const siderStyle: React.CSSProperties = {
-    textAlign: "center",
-    lineHeight: "120px",
-    color: "#fff",
-    backgroundColor: "#3ba0e9",
-  };
-
-  const footerStyle: React.CSSProperties = {
-    textAlign: "center",
-    color: "#fff",
-    backgroundColor: "#7dbcea",
-  };
-
-  type MenuItem = Required<MenuProps>["items"][number];
-
-  function getItem(
-    label: React.ReactNode,
-    key?: React.Key | null,
-    icon?: React.ReactNode,
-    children?: MenuItem[],
-    type?: "group",
-  ): MenuItem {
-    return {
-      key,
-      icon,
-      children,
-      label,
-      type,
-    } as MenuItem;
-  }
-
-  const items: MenuItem[] = [
-    getItem("共享中心", "sub1", <AppstoreOutlined />, [
-      getItem("Option 1", "1"),
-      getItem("Option 2", "2"),
-    ]),
-
-    getItem("赛事中心", "sub2", <VideoCameraAddOutlined />, [
-      getItem("Option 5", "5"),
-      getItem("Option 6", "6"),
-      getItem("Submenu", "sub3", null, [
-        getItem("Option 7", "7"),
-        getItem("Option 8", "8"),
-      ]),
-    ]),
-
-    getItem("订单中心", "sub4", <PayCircleOutlined />, [
-      getItem("Option 9", "9"),
-      getItem("Option 10", "10"),
-      getItem("Option 11", "11"),
-      getItem("Option 12", "12"),
-    ]),
-
-    getItem("用户中心", "sub5", <UserDeleteOutlined />, [
-      getItem("Option 9", "9"),
-      getItem("Option 10", "10"),
-      getItem("Option 11", "11"),
-      getItem("Option 12", "12"),
-    ]),
-
-    getItem("球队中心", "sub7", <FlagOutlined />, [
-      getItem("Option 9", "9"),
-      getItem("Option 10", "10"),
-      getItem("Option 11", "11"),
-      getItem("Option 12", "12"),
-    ]),
-  ];
-
-  const [theme, setTheme] = useState<MenuTheme>("dark");
-  const [current, setCurrent] = useState("1");
-
-  const changeTheme = (value: boolean) => {
-    setTheme(value ? "dark" : "light");
-  };
-
-  const onClick: MenuProps["onClick"] = (e) => {
-    console.log("click ", e);
-    setCurrent(e.key);
-  };
 
   const handToLogin = () => {
     messageApi.success("退出成功");
@@ -123,33 +115,31 @@ const Home: React.FC = () => {
   return (
     <>
       <Card hoverable={true} style={{ height: "100%" }}>
-        <Space direction="vertical" style={{ width: "100%" }} size={[0, 100]}>
+        <Space direction="vertical" style={{ width: "100%" }} size={[0, 48]}>
           <Layout>
             <Header style={headerStyle}>Header</Header>
             <Layout>
               <Sider style={siderStyle}>
-                <Switch
-                  checked={theme === "dark"}
-                  onChange={changeTheme}
-                  checkedChildren="Dark"
-                  unCheckedChildren="Light"
-                />
                 <Menu
-                  theme={theme}
-                  onClick={onClick}
-                  style={{ width: 200 }}
-                  defaultOpenKeys={["sub1"]}
-                  selectedKeys={[current]}
+                  defaultSelectedKeys={["1"]}
+                  defaultOpenKeys={["hzhCenter"]}
+                  onClick={getAllChinaCity}
+                  onSelect={(event) => {
+                    navigate(`${APP_PATHS.HOME}/${event.key}`);
+                  }}
                   mode="inline"
+                  theme="dark"
+                  inlineCollapsed={collapsed}
                   items={items}
                 />
               </Sider>
-              <Content style={contentStyle}>Content</Content>
+              <Content style={contentStyle}>
+                <Outlet />
+              </Content>
             </Layout>
             <Footer style={footerStyle}>Footer</Footer>
           </Layout>
         </Space>
-
         <Button type="primary" icon={<LogoutOutlined />} onClick={handToLogin}>
           退出登录
         </Button>

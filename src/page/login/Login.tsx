@@ -35,21 +35,23 @@ const Login: FC = () => {
   // const fail = () => {};
 
   const handToHome = () => {
-    login({
-      username: userName,
-      password: passWord,
-    }).then((res) => {
-      console.log(res.msg);
-      if (res.code === 200) {
-        messageApi.success(res.msg);
-        jump("HOME");
-      }
+    //TODO
+    jump("HOME");
+    // login({
+    //   username: userName,
+    //   password: passWord,
+    // }).then((res) => {
+    //   console.log(res.msg);
+    //   if (res.code === 200) {
+    //     messageApi.success(res.msg);
+    //     jump("HOME");
+    //   }
 
-      if (res.code !== 200) {
-        messageApi.error(res.msg);
-      }
-      // res.code === 200 ? success() : fail();
-    });
+    //   if (res.code !== 200) {
+    //     messageApi.error(res.msg);
+    //   }
+    //   // res.code === 200 ? success() : fail();
+    // });
   };
 
   //  function loginFunction(username: string, password: string);

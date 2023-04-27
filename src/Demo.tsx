@@ -38,10 +38,10 @@ const Demo: FC = () => {
       <Card hoverable={true} size={"small"} title="测试接口页面">
         <Space>
           <Button type="primary" onClick={handleGetQuery}>
-            GetQuery
+            GET请求
           </Button>
           <Button type="primary" onClick={handlePostQuery}>
-            PostQuery
+            POST请求
           </Button>
           <Button type="primary" onClick={handToLogin}>
             Login
