@@ -1,9 +1,7 @@
 import { Button, Card, Layout, Space } from "antd";
 import { CSSProperties, FC, Key, ReactNode, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import SportsBasketballIcon from "@material-ui/icons/SportsBasketball";
 import {
-  AppstoreOutlined,
   PieChartOutlined,
   LogoutOutlined,
   VideoCameraOutlined,
@@ -75,28 +73,34 @@ const items: MenuItem[] = [
     getItem("全球城市", "globalCountries", <DribbbleOutlined />),
   ]),
 
-  getItem("赛事中心", "sub2", <VideoCameraOutlined />, [
-    getItem("篮球", "sub3", null, [getItem("NBA", "5"), getItem("CBA", "6")]),
-    getItem("足球", "sub4", null, [
+  getItem("赛事中心", "hzhEvent", <VideoCameraOutlined />, [
+    getItem("篮球", "basketballEvent", null, [
+      getItem("NBA", "NBAEvent"),
+      getItem("CBA", "CBAEvent"),
+    ]),
+    getItem("足球", "footballEvent", null, [
       getItem("国足", "3"),
       getItem("意大利联赛", "4"),
     ]),
   ]),
-  getItem("球队中心", "sub3", <FlagOutlined />, [
-    getItem("篮球", "sub4", null, [getItem("NBA", "7"), getItem("CBA", "8")]),
+  getItem("球队中心", "hzhTeam", <FlagOutlined />, [
+    getItem("篮球", "BasketTeam", null, [
+      getItem("NBA", "NBATeams"),
+      getItem("CBA", "CBATeams"),
+    ]),
     getItem("足球", "sub5", null, [
       getItem("国足", "9"),
       getItem("意大利联赛", "10"),
     ]),
   ]),
-  getItem("订单中心", "sub6", <TransactionOutlined />, [
+  getItem("订单中心", "hzhOrder", <TransactionOutlined />, [
     getItem("篮球", "sub7", null, [getItem("NBA", "11"), getItem("CBA", "13")]),
     getItem("足球", "sub8", null, [
       getItem("国足", "11"),
       getItem("意大利联赛", "12"),
     ]),
   ]),
-  getItem("用户中心", "sub9", <UsergroupDeleteOutlined />),
+  getItem("用户中心", "hzhUser", <UsergroupDeleteOutlined />),
 ];
 
 const Home: FC = () => {
@@ -121,8 +125,8 @@ const Home: FC = () => {
             <Layout>
               <Sider style={siderStyle}>
                 <Menu
-                  defaultSelectedKeys={["1"]}
-                  defaultOpenKeys={["hzhCenter"]}
+                  // defaultSelectedKeys={["1"]}
+                  // defaultOpenKeys={["hzhCenter"]}
                   onClick={getAllChinaCity}
                   onSelect={(event) => {
                     navigate(`${APP_PATHS.HOME}/${event.key}`);

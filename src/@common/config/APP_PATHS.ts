@@ -19,6 +19,9 @@ const APP_PATHS = {
 
   // 找回密码页面
   FORGET: `${BASEURL}forget`,
+
+  // 测试
+  TEST: `${BASEURL}test`,
 } as const;
 
 type AppPathsKey = keyof typeof APP_PATHS;

@@ -62,7 +62,7 @@ const Registe: FC = () => {
         messageApi.warning("phonenumber 格式异常");
       }
     } else {
-      messageApi.warning("userName 不能为空");
+      messageApi.warning("username 不能为空");
     }
   };
 
@@ -88,13 +88,30 @@ const Registe: FC = () => {
 
   const { TextArea } = Input;
 
+  const loginContainerStyle = {  
+    display: 'flex',  
+    justifyContent: 'center', // 水平居中  
+    alignItems: 'center',     // 垂直居中  
+    height: '100vh',         // 使容器高度占满视口  
+    backgroundColor: '#FFFFFF', // 可选：设置背景色  
+    margin: '0',             // 清除默认边距  
+    padding: '0',             // 清除默认内边距  
+  };
+
+  const inputStyle = {
+    width: 610
+  }
+
   return (
     <>
+    <div>
+      <Card style={loginContainerStyle}>
       <Card
         title="注册页面"
         bordered={false}
-        style={{ width: 600, left: 645 }}
+        //style={{ width: 600, left: 645 }}
         hoverable
+        style={ {backgroundColor: '#FFB3FF',width: 650}}
       >
         <Space
           direction="vertical"
@@ -105,7 +122,7 @@ const Registe: FC = () => {
           <Input
             placeholder="username"
             prefix={<UserOutlined />}
-            style={{ width: 550 }}
+            style={inputStyle}
             value={registeObj?.userName}
             onChange={(event) => {
               const userName = event.target.value;
@@ -129,7 +146,7 @@ const Registe: FC = () => {
           <Input
             placeholder="phonenumber"
             prefix={<ShakeOutlined />}
-            style={{ width: 550 }}
+            style={inputStyle}
             onChange={(event) => {
               const phonenumber = event.target.value;
               setRegisteObj(
@@ -145,7 +162,7 @@ const Registe: FC = () => {
           <Input
             placeholder="email"
             prefix={<MailOutlined />}
-            style={{ width: 550 }}
+            style={inputStyle}
             // onChange={(event) => {
             //   setEmail(event.target.value);
             // }}
@@ -164,7 +181,7 @@ const Registe: FC = () => {
           <Input.Password
             placeholder="input password"
             prefix={<KeyOutlined />}
-            style={{ width: 550 }}
+            style={inputStyle}
             iconRender={(visible) =>
               visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
             }
@@ -184,7 +201,7 @@ const Registe: FC = () => {
           <Input.Password
             placeholder="make true password "
             prefix={<KeyOutlined />}
-            style={{ width: 550 }}
+            style={inputStyle}
             iconRender={(visible) =>
               visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
             }
@@ -201,7 +218,7 @@ const Registe: FC = () => {
           <Input
             placeholder="验证码"
             prefix={<MailOutlined />}
-            style={{ width: 550 }}
+            style={inputStyle}
             onChange={(event) => {
               const mailCode = event.target.value;
               setRegisteObj(
@@ -264,7 +281,7 @@ const Registe: FC = () => {
             placeholder="maxLength is 100"
             maxLength={100}
             showCount={true}
-            style={{ width: 550 }}
+            style={inputStyle}
             allowClear={true}
             onChange={(event) => {
               const userDescription = event.target.value;
@@ -288,6 +305,9 @@ const Registe: FC = () => {
               返回登录
             </Button>
             <br />
+            <br />
+            <br />
+            <br />
             <Button
               type="primary"
               icon={<CheckCircleTwoTone />}
@@ -298,6 +318,8 @@ const Registe: FC = () => {
           </Space>
         </Space>
       </Card>
+      </Card>
+      </div>
     </>
   );
 };

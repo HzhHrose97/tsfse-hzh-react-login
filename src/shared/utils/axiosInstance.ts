@@ -66,6 +66,7 @@ type AxiosInstance = Omit<
 
 /**
  * request interceptor
+ * 拦截器函数的作用是在发送请求前对请求进行拦截和处理，可以用来实现一些通用的请求处理逻辑。
  */
 const interceptRequest = (instance: RawAxiosInstance) => {
   instance.interceptors.request.use((config) => {
@@ -75,6 +76,7 @@ const interceptRequest = (instance: RawAxiosInstance) => {
 
 /**
  * response interceptor
+ * 函数的作用是在接收到响应后对响应数据进行拦截和处理，可以用来统一处理接口返回的数据，提取有效信息并传递给后续处理逻辑。
  */
 const interceptResponse = (instance: RawAxiosInstance) => {
   instance.interceptors.response.use((res) => {

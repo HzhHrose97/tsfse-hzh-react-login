@@ -5,11 +5,6 @@ const hzhUserBaseUrl = "http://localhost:9001";
 
 const axiosInstance = createInstance(hzhUserBaseUrl);
 
-type loginObj = {
-  username: string;
-  password: string;
-};
-
 type sendMailCodeObj = {
   email: string;
 };
@@ -31,6 +26,11 @@ type Result<T> = {
   data: T;
 };
 
+type LoginObj = {
+  username: string;
+  password: string;
+};
+
 type ForgetObj = {
   password: string;
   phonenumber: string;
@@ -38,7 +38,7 @@ type ForgetObj = {
   mailCode: string;
 };
 
-const login = (parmas: loginObj) => {
+const login = (parmas: LoginObj) => {
   return axiosInstance.post("/hzh-user/hzhUser/login", parmas);
 };
 
@@ -76,4 +76,4 @@ export {
   updatePasswordByuserSelf,
   sendUpadatePasswordMailCode,
 };
-export type { loginObj, Result };
+export type { LoginObj, Result };
